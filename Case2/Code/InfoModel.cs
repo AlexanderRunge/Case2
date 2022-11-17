@@ -10,4 +10,5 @@ internal class InfoModel
 {
     public string? Name { get; set; }
     public string[]? Description { get; set; }
+    public string List { get; set; }
 }

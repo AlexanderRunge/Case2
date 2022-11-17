@@ -15,6 +15,7 @@ internal class SearchSubject
     {
         Info = subjectInfo;
         Info.Description = SubjectSearch();
+        Info.List = SubjectList();
     }
     public string[] SubjectSearch()
     {
@@ -34,6 +35,25 @@ internal class SearchSubject
             }
         }
         string[] result = attendees.ToArray();
+        return result;
+    }
+    public string SubjectList()
+    {
+        List<string> subjects = new List<string>();
+        Array values = Enum.GetValues(typeof(EnumPeople));
+        foreach (EnumPeople selectedEnum in values)
+        {
+            MemberInfo[] memberInfo = selectedEnum.GetType().GetMember(selectedEnum.ToString());
+            SubjectAttribute subjectAttribute = memberInfo.First().GetCustomAttribute<SubjectAttribute>();
+            if (subjectAttribute != null)
+            {
+                if (!subjects.Contains(subjectAttribute.SubjectName, StringComparer.OrdinalIgnoreCase))
+                {
+                    subjects.Add(subjectAttribute.SubjectName);
+                }
+            }
+        }
+        string result = string.Join(", \n", subjects.ToArray());
         return result;
     }
 }

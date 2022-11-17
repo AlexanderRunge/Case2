@@ -18,20 +18,22 @@ do
             switch (keyinput.Key)
             {
                 case ConsoleKey.D1:
-                    Console.Clear();
-                    Console.Write("Du har valgt at søge efter en lærer.\n" +
-                                  "Her er alle lærer i systemet:\n" +
-                                  "Peter Lindenskov, Niels Olesen, Jan Johansen, Henrik Poulsen\n" +
-                                  "Skriv venligst navnet på læreren du vil søge efter : ");
-                    string? teacherName = Console.ReadLine();
-                    Console.WriteLine("");
-
                     InfoModel? teacherModel = null;
                     SearchTeacher? teacher = null;
+                    teacherModel = new();
+                    teacher = new(teacherModel);
+                    Console.Clear();
+                    Console.Write("Du har valgt at søge efter en lærer.\n" +
+                                  "Her er alle lærerne i systemet:\n" +
+                                  $"{teacher.Info.List}\n" +
+                                  "Skriv venligst navnet på læreren du vil søge efter : ");
+                    string? teacherName = Console.ReadLine();
+                    Console.Clear();
+
                     teacherModel = new() { Name = teacherName };
                     teacher = new(teacherModel);
                     if (teacher.Info.Description.Length != 0)
-                    { 
+                    {
                         foreach (var item in teacher.Info.Description)
                         {
                             Console.WriteLine(item);
@@ -41,18 +43,25 @@ do
                     {
                         Console.WriteLine("\nLærer eksistere ikke\n");
                     }
-                    break;
-                case ConsoleKey.D2:
-                    Console.Clear();
-                    Console.Write("Du har valgt at søge efter en elev.\n" +
-                                  "Her er alle elever i systemet: \n" +
-                                  "Alexander Runge, Amanda Gudmand, Camilla Kløjgaard, Dennis Paaske, Iheb Boukthir, Jakob Rasmussen, Mhd Adil Ajak, \nMicki Olsen, Mikkel Rantala, Mikkel Jensen, Mikkel Kjærgaard, Niclas Jensen, Ozan Korkmaz, Rasmus Wiell, Rune Hansen, \nSanjit Poudel\n" +
-                                  "Skriv venligst navnet på eleven du vil søge efter : ");
-                    string? studentName = Console.ReadLine();
-                    Console.WriteLine("");
 
+                    Console.Write("Klik på en knap for at komme vidre : ");
+                    Console.ReadKey();
+                    Console.Clear();
+                    break;
+
+                case ConsoleKey.D2:
                     InfoModel? studentModel = null;
                     SearchStudent? student = null;
+                    studentModel = new();
+                    student = new(studentModel);
+                    Console.Clear();
+                    Console.Write("Du har valgt at søge efter en elev.\n" +
+                                  "Her er alle eleverne i systemet:\n" +
+                                  $"{student.Info.List}\n" +
+                                  "Skriv venligst navnet på eleven du vil søge efter : ");
+                    string? studentName = Console.ReadLine();
+                    Console.Clear();
+
                     studentModel = new() { Name = studentName };
                     student = new(studentModel);
                     if (student.Info.Description.Length != 0)
@@ -62,29 +71,53 @@ do
                             Console.WriteLine(item);
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("\nEleven eksistere ikke\n");
+                    }
+
+                    Console.Write("Klik på en knap for at komme vidre : ");
+                    Console.ReadKey();
+                    Console.Clear();
                     break;
+
                 case ConsoleKey.D3:
+                    InfoModel? subjectModel = null;
+                    SearchSubject? subject = null; 
+                    subjectModel = new();
+                    subject = new(subjectModel);
                     Console.Clear();
                     Console.Write("Du har valgt at søge efter et fag.\n" +
                                   "Her er alle fagne i systemet:\n" +
-                                  "Clientsideprogrammering, Studieteknik, Grundlæggende programmering, OOP, Databaseprogrammering, Computerteknologi, Netværk\n" +
+                                  $"{subject.Info.List}\n" +
                                   "Skriv venligst navnet på faget du vil søge efter : ");
                     string? subjectName = Console.ReadLine();
-                    Console.WriteLine("");
+                    Console.Clear();
 
-                    InfoModel? subjectModel = null;
-                    SearchSubject? subject = null;
                     subjectModel = new() { Name = subjectName };
                     subject = new(subjectModel);
-                    foreach (var item in subject.Info.Description)
-                    {
-                        Console.WriteLine(item);
+                    if (subject.Info.Description.Length != 0) 
+                    { 
+                        foreach (var item in subject.Info.Description)
+                        {
+                            Console.WriteLine(item);
+                        }
                     }
+                    else
+                    {
+                        Console.WriteLine("\nFaget eksistere ikke\n");
+                    }
+
+                    Console.Write("Klik på en knap for at komme vidre : ");
+                    Console.ReadKey();
+                    Console.Clear();
                     break;
+
                 case ConsoleKey.Q:
                     Console.WriteLine("\nStopper program...");
                     check = false;
                     break;
+
                 default:
                     Console.Clear();
                     Console.WriteLine("Du klikkede ikke på en rigtig knap.\n");

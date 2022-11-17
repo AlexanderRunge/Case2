@@ -16,10 +16,11 @@ internal class SearchTeacher : IInfo
     {
         Info = teacherInfo;
         Info.Description = TeacherSearch();
+        Info.List = TeacherList();
     }
     public string[] TeacherSearch()
     {
-        List<string> subjects = new List<string>();
+        List<string> teachers = new List<string>();
         Array values = Enum.GetValues(typeof(EnumPeople));
         foreach (EnumPeople selectedEnum in values)
         {
@@ -30,11 +31,33 @@ internal class SearchTeacher : IInfo
                 if (subjectAttribute.Teacher.Contains(Info.Name, StringComparer.OrdinalIgnoreCase))
                 {
                     string text = $"{string.Join(", ", subjectAttribute.Teacher)} er lærer for {subjectAttribute.SubjectName} som har eleverne:\n{string.Join(",\n", subjectAttribute.Attendees)}\n";
-                    subjects.Add(text);
+                    teachers.Add(text);
                 }
             }
         }
-        string[] result = subjects.ToArray();
+        string[] result = teachers.ToArray();
+        return result;
+    }
+    public string TeacherList()
+    {
+        List<string> teachers = new List<string>();
+        Array values = Enum.GetValues(typeof(EnumPeople));
+        foreach (EnumPeople selectedEnum in values)
+        {
+            MemberInfo[] memberInfo = selectedEnum.GetType().GetMember(selectedEnum.ToString());
+            SubjectAttribute subjectAttribute = memberInfo.First().GetCustomAttribute<SubjectAttribute>();
+            if (subjectAttribute != null)
+            {
+                foreach (string teacher in subjectAttribute.Teacher)
+                {
+                    if (!teachers.Contains(teacher, StringComparer.OrdinalIgnoreCase))
+                    {
+                        teachers.Add(teacher);
+                    }
+                }
+            }
+        }
+        string result = string.Join(", \n", teachers.ToArray());
         return result;
     }
 }
