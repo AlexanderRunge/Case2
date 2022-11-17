@@ -26,7 +26,7 @@ internal class SearchSubject
             SubjectAttribute subjectAttribute = memberInfo.First().GetCustomAttribute<SubjectAttribute>();
             if (Info.Name != null && subjectAttribute != null)
             {
-                if (subjectAttribute.SubjectName.Contains(Info.Name))
+                if (subjectAttribute.SubjectName.Equals(Info.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     string text = $"{string.Join(", ", subjectAttribute.Teacher)} er lærer for {subjectAttribute.SubjectName} som har eleverne:\n{string.Join(",\n", subjectAttribute.Attendees)}\n";
                     attendees.Add(text);
